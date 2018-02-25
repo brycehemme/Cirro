@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+
+import click
+import sys
+import os.path
+import os
+
+tf_commands = ['plan', 'apply']
+
+@click.command()
+@click.argument('command')
+@click.argument('environment')
+@click.option('--config-directory', default='../environment-configs/', help='The directory that contains the environment specific configs')
+def run(command, environment, config_directory):
+	if command in tf_commands:
+		run_tf_command(command, environment, config_directory)
+	if command == 'make-project':
+		pass
+	if command == 'make-resource-group'
+		pass
+	print(command)
+	print(environment)
+	print(os.getcwd())
+
+def run_tf_command(command, environment, config_directory):
+	# need to check files
+	# link appropriate files
+	pass
+
+if __name__ == '__main__':
+	run()
