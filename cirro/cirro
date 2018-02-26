@@ -1,31 +1,60 @@
 #!/usr/bin/env python
 
 import click
-import sys
-import os.path
 import os
 
-tf_commands = ['plan', 'apply']
 
-@click.command()
-@click.argument('command')
-@click.argument('environment')
-@click.option('--config-directory', default='../environment-configs/', help='The directory that contains the environment specific configs')
-def run(command, environment, config_directory):
-	if command in tf_commands:
-		run_tf_command(command, environment, config_directory)
-	if command == 'make-project':
-		pass
-	if command == 'make-resource-group'
-		pass
-	print(command)
-	print(environment)
-	print(os.getcwd())
+CONFIG_DIR_DEFAULT = "../env-configs/"
+
+@click.group()
+def cli():
+    print(os.getcwd())
+
+@cli.command("plan", short_help="call Terraform plan")
+@click.argument("environment")
+@click.option("--config-directory", default=CONFIG_DIR_DEFAULT, help="The directory that contains the environment specific configs")
+def plan(environment, config_directory):
+    """ENVIRONMENT\tThe environment to plan against"""
+    click.echo("you called plan")
+    os.system("terraform plan")
+    pass
+
+@cli.command("apply", short_help="call Terraform apply")
+@click.argument("environment")
+@click.option("--config-directory", default=CONFIG_DIR_DEFAULT, help="The directory that contains the environment specific configs")
+def apply(environment, config_directory):
+    """ENVIRONMENT\tThe environment to apply"""
+    pass
+
+@cli.command("mkproj", short_help="make a new Project")
+@click.argument("path")
+def mkproj(path):
+    if not os.path.isdir(path):
+        click.echo("Error: cannot find {}".format(path))
+        return
+    pass
+
+@cli.command("mkrg", short_help="make a new Resource Group")
+@click.argument("path")
+def mkrg(path):
+    if not os.path.isdir(path):
+        click.echo("Error: cannot find {}".format(path))
+    pass
 
 def run_tf_command(command, environment, config_directory):
-	# need to check files
-	# link appropriate files
-	pass
+    # need to check files
+    # link appropriate files
+    pass
 
-if __name__ == '__main__':
-	run()
+if __name__ == "__main__":
+    cli()
+
+
+
+""" EXAMPLES
+
+    cirro mkproj /path/to/create/project
+    cirro mkrg /path/to/create/resource/group
+    cirro plan production
+    cirro apply production
+"""
